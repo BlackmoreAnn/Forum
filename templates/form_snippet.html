@@ -1,0 +1,13 @@
+{% csrf_token %}
+{% for field in form %}
+<div class="form-group{% if field.errors %} error{% endif %}">
+    <label class="col-sm-2 control-label{% if field.field.required %} required{% endif %}" for="{{ field.name }}" rel="tooltip"
+           title="{% if field.field.help_text %}{{ field.field.help_text|safe }}{% endif %}">{{ field.label }}</label>
+    <div class="col-sm-10">
+        {{ field }}
+        {% if field.errors %}
+            <span class="help-inline">{{ field.errors }}</span>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="panel panel-default">
+        {% ifequal object.author user %}
+            <a href="{% url 'question.delete' object.pk %}"><button class="btn btn-link glyphicon glyphicon-remove navbar-right navbar-static-top"></button></a>
+            <a href="{% url 'question.update' object.pk %}"><button class="btn btn-link glyphicon glyphicon-pencil navbar-right navbar-static-top"></button></a>
+        {% endifequal %}
+        <div class="panel-heading">
+            <h3>{{ object.caption }}</h3>
+        </div>
+        <div class="panel-body">
+            {{ object.text }}
+            <p><ul class="nav nav-pills nav-stacked navbar-right">
+                <li class="active">
+                    <a href="#">
+                      <span class="badge pull-right">{{ object.author }}</span>
+                      {{ object.date_question|date:"d-m-Y H:i" }}
+                    </a>
+                </li>
+            </ul></p>
+        </div>
+    </div>
+
+    <h2>Ответы</h2>
+
+    {% for answer in object_list %}
+         <div class="panel panel-default">
+             {% ifequal answer.author user %}
+                <form method="POST" action="{% url 'answer.delete' object.pk answer.pk %}">{% csrf_token %}
+                   <button type="submit" class="btn btn-link glyphicon glyphicon-remove navbar-right"></button>
+                </form>
+                <a href="{% url 'answer.update' object.pk answer.pk %}"><button class="btn btn-link glyphicon glyphicon-pencil navbar-right navbar-static-top"></button></a>
+            {% endifequal %}
+            <div class="panel-body">
+                 {{ answer.message }}
+                 <p><ul class="nav nav-pills nav-stacked btn-group navbar-right">
+                     <li class="active">
+                         <a href="#">
+                             <span class="badge pull-right">{{ answer.author }}</span>
+                             {{ answer.date_answer|date:"d-m-Y H:i" }}
+                         </a>
+                     </li>
+                 </ul><p>
+             </div>
+         </div>
+    {% endfor %}
+
+    <p>
+        {% if user.is_authenticated %}
+            <a class="btn btn-primary btn-lg" role="button" href="{% url 'answer.create' object.pk %}">Добавить свой ответ</a>
+        {% endif %}
+    </p>
+
+{% endblock content %}

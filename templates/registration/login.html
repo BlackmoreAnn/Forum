@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>Авторизация</h1>
+    <h2><a href='{% url "socialauth_begin" "facebook" %}'>facebook</a></h2>
+
+    <p>или</p>
+
+    {% if form.errors %}
+        <span class="badge badge-important large">Неверное имя пользователя или пароль.</span>
+    {% endif %}
+
+    <form action="" method="POST" class="form-horizontal">
+        {% include "form_snippet.html" %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary" name="save" id="save">Выполнить</button>
+            </div>
+        </div>
+        <input type="hidden" name="next" value="{% url "question.list" %}" />
+    </form>
+
+    <a href="{% url "auth_password_reset" %}">Забыли пароль?</a>
+
+    <p><h2><a href="{% url "registration_register" %}">Зарегистрироваться</a></h2></p>
+
+{% endblock content %}
+
+

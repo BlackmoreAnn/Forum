@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Все вопросы</h1>
+
+    {% for object in object_list %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title btn-group"><a href="{{ object.get_absolute_url }}">{{ object.caption }}</a></h3>
+                <ul class="nav nav-pills nav-stacked btn-group navbar-right">
+                    <li class="active">
+                        <a href="#">
+                          <span class="badge pull-right">{{ object.author }}</span>
+                          {{ object.date_question|date:"d-m-Y H:i" }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-body">{{ object.text|slice:"100" }} ...</div>
+        </div>
+    {% endfor %}
+
+{% endblock content %}
+
+{% block pagination %}
+    {{ block.super }}
+{% endblock pagination %}
